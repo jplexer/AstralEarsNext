@@ -2,9 +2,13 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token, name } = require('./config.json');
 const {DiscordTogether} = require("discord-together");
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES] });
 client.discordTogether = new DiscordTogether(client);
 client.commands = new Collection();
+const { Player } = require("discord-player");
+
+const player = new Player(client);
+client.player = player;
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -44,21 +48,27 @@ function setActivity(client) {
       `TrackTribe - Walk Through the Park`,
       `System of a Down - Toxicity`, 
       `Lionel Richie - Hello`,
-	  `Nokia - Ringtone Arabic`,
-	  `Air Supply - All Out Of Love`,
-	  `Karl Marx - The Communist Manifesto`,
-	  `Alexandrov Ensemble - The National Anthem of the United Socialist Soviet Republics`,
+	    `Nokia - Ringtone Arabic`,
+	    `Air Supply - All Out Of Love`,
+	    `Karl Marx - The Communist Manifesto`,
+	    `Alexandrov Ensemble - The National Anthem of the United Socialist Soviet Republics`,
       ), {
         type: "LISTENING"
       });
   }
+
+player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
+
+player.on('queueEnd', (queue) => {
+  queue.metadata.channel.send(`That's all folks! Thanks for using AstralEars!`);
+});
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
 
-	if (!command) await interaction.reply({ content: `This command doesn't exist in the rewrite yet!`, ephemeral: true });// return;
+	if (!command) return;
 
 	try {
 		await command.execute(interaction, client);
