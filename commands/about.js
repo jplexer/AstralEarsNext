@@ -11,7 +11,7 @@ module.exports = {
         embed.setDescription("This is a music bot originally developed by vicr123, but now revived and maintained by JPlexer.");
         embed.setColor(color);
         embed.addField("License", "This Bot is licenced under the GPL v3 License.");
-        embed.addField("Github", "The Source Code of the bot is available at https://github.com/JPlexer/AstralEars");
+        embed.addField("Github", "The Source Code of the bot is available at https://github.com/JPlexer/AstralEarsNext");
 		embed.setFooter({text: `${name}  ${version}`});
 		await interaction.reply({ embeds: [embed] });
 	},
