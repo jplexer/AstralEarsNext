@@ -1,7 +1,7 @@
 {
     "token": "",
-    "color": "#ffffff",
+    "color": "#4D0FD1",
     "name": "AstralEars Next",
-    "version": "2.0.0-next"
-
+    "version": "2.1.0-next",
+    "appID": ""
 }

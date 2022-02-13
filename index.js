@@ -22,46 +22,24 @@ for (const file of commandFiles) {
 // When the client is ready, run this code (only once)
 client.once('ready', () => {
 		console.log(`${name} is all ears!`);
-		setInterval(setActivity, 300000, client);
-		setActivity(client);
-});
-
-function getRandom () {
-    if (arguments.length == 1) {
-      if (typeof arguments[0] == Array) {
-        var random = Math.floor(Math.random() * 1000) % arguments[0].length;
-        return arguments[0][random];
-      }
-    } else {
-      var random = Math.floor(Math.random() * 1000) % arguments.length;
-      return arguments[random];
-    }
-  }
-
-function setActivity(client) {
-    client.user.setActivity(getRandom(
-      `The Outlaws - Green Grass and High Tides`,
-      `DJT - The Witch`,
-      `Anders Enger Jensen - DiscoVision`,
-      `Michael Jackson - Billie Jean`,
-      `Vrabbers - Silly`,
-      `TrackTribe - Walk Through the Park`,
-      `System of a Down - Toxicity`, 
-      `Lionel Richie - Hello`,
-	    `Nokia - Ringtone Arabic`,
-	    `Air Supply - All Out Of Love`,
-	    `Karl Marx - The Communist Manifesto`,
-	    `Alexandrov Ensemble - The National Anthem of the United Socialist Soviet Republics`,
-      ), {
+		client.user.setActivity(`A wide range of Songs!`, {
         type: "LISTENING"
       });
-  }
+});
 
 player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
 
+player.on('error', (queue, err) => {
+	queue.metadata.channel.send('An error appeared! Notifiy the Developer ASAP: ```' + err + '```');
+  });
+
 player.on('queueEnd', (queue) => {
-  queue.metadata.channel.send(`That's all folks! Thanks for using AstralEars!`);
-});
+	queue.metadata.channel.send(`That's all folks! Thanks for using AstralEars!`);
+  });
+
+player.on('botDisconnect', (queue) => {
+	queue.stop();
+  });
 
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;

@@ -4,7 +4,7 @@ const { color, name, version} = require('../config.json');
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('play')
-    .setDescription('Add a song to the queue')
+    .setDescription(`let's groove tonight`)
     .addStringOption(option => option.setName('input').setDescription('Link or Name').setRequired(true)),
 	async execute(interaction, client) {
         if (!interaction.member.voice.channelId) return await interaction.reply({ content: "You are not in a voice channel!", ephemeral: true });

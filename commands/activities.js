@@ -5,7 +5,7 @@ const { MessageEmbed,  MessageActionRow, MessageButton } = require('discord.js')
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('activities')
-		.setDescription('Create a Discord Activity Invite Link')
+		.setDescription('eating seeds as a discord activity')
 		.addStringOption(option =>
             option.setName('type')
                 .setDescription('The type of activity to summon')

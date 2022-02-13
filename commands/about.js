@@ -4,7 +4,7 @@ const { color, name, version} = require('../config.json');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('about')
-		.setDescription('About the Bot'),
+		.setDescription('all about that bass'),
 	async execute(interaction) {
 		let embed = new MessageEmbed();
         embed.setTitle(`About ${name}`);

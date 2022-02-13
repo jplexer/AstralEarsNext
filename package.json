@@ -4,10 +4,11 @@
   "description": "A new beginning",
   "main": "index.js",
   "scripts": {
-    "main": "index.js"
+    "main": "index.js",
+    "register-commands": "deploy-commands.js"
   },
   "author": "JoshuaHasNoClue",
-  "license": "ISC",
+  "license": "GPL-v3",
   "dependencies": {
     "@discordjs/builders": "^0.12.0",
     "@discordjs/opus": "^0.7.0",
