@@ -4,8 +4,8 @@
   "description": "A new beginning",
   "main": "index.js",
   "scripts": {
-    "main": "index.js",
-    "register-commands": "deploy-commands.js"
+    "start": "node index.js",
+    "deploy-commands": "node deploy-commands.js"
   },
   "author": "JoshuaHasNoClue",
   "license": "GPL-v3",
