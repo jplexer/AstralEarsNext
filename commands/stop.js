@@ -11,6 +11,6 @@ module.exports = {
 			return await interaction.reply({ content: "You need to summon the Bot!", ephemeral: true });
 		}
 		queue.stop();
-		await interaction.reply({ content: "Stopping...", ephemeral: true });
+		await interaction.reply({ content: "Stopping..."});
 	},
 };

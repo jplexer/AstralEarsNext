@@ -30,7 +30,11 @@ client.once('ready', () => {
 player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
 
 player.on('error', (queue, err) => {
-	queue.metadata.channel.send('An error appeared! Notifiy the Developer ASAP: ```' + err + '```');
+	if(err = "DestroyedQueue") {
+
+	} else {
+		queue.metadata.channel.send('An error appeared! Notifiy the Developer ASAP: ```' + err + '```');
+	}
   });
 
 player.on('queueEnd', (queue) => {
@@ -39,6 +43,10 @@ player.on('queueEnd', (queue) => {
 
 player.on('botDisconnect', (queue) => {
 	queue.stop();
+  });
+
+player.on('connectionError', (queue, err) => {
+	console.log(err);
   });
 
 client.on('interactionCreate', async interaction => {
@@ -52,7 +60,7 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction, client);
 	} catch (error) {
 		console.error(error);
-		await interaction.reply({ content: `This command couldn't be executed. Please try again`, ephemeral: true });
+		await interaction.channel.send(`The command ${command} couldn't be executed. Please try again`);
 	}
 });
 // Login to Discord with your client's token
