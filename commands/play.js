@@ -14,7 +14,9 @@ module.exports = {
         const query = interaction.options.get("input").value;
         const queue = client.player.createQueue(interaction.guild, {
             metadata: {
-                channel: interaction.channel
+                channel: interaction.channel,
+                voteSkippers: [],
+                requiredVoteSkippers: 0,
             },
             spotifyBridge: true,
             async onBeforeCreateStream(track, source, _queue) {

@@ -27,7 +27,7 @@ client.once('ready', () => {
       });
 });
 
-player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
+player.on("trackStart", (queue, track) => {queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`); queue.metadata.voteSkippers = []; queue.metadata.requiredVoteSkippers = 0; console.log(queue.metadata.voteSkippers); console.log(queue.metadata.requiredVoteSkippers)});
 
 player.on('error', (queue, err) => {
 	if(err = "DestroyedQueue") {
