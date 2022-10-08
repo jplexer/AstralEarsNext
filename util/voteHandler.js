@@ -29,6 +29,7 @@ module.exports = {
             if (queue.metadata.voteSkippers.length >= queue.metadata.requiredVoteSkippers) {
                 queue.skip();
                 i.reply({ content: "Skipping..."});
+                i.update({ content: "Skip successful!" , components: []});
                 skipSuccessful = true;
                 queue.metadata.requiredVoteSkippers = 0;
             } else {
