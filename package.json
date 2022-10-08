@@ -1,6 +1,6 @@
 {
   "name": "aenext",
-  "version": "2.0.0-next",
+  "version": "2.3.0-next",
   "description": "A new beginning",
   "main": "index.js",
   "scripts": {
