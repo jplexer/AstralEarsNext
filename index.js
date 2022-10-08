@@ -1,14 +1,27 @@
+//require dependencies
 const fs = require('fs');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token, name } = require('./config.json');
 const {DiscordTogether} = require("discord-together");
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, Intents.FLAGS.GUILD_INVITES, Intents.FLAGS.GUILD_MESSAGES] });
+const path = require('path');
+const { Player } = require("discord-player");
+const { Reverbnation,  Facebook, Attachment, Vimeo} = require("@discord-player/extractor");
+const downloader = require("@discord-player/downloader").Downloader;
+
+//create client
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildMessages] });
 client.discordTogether = new DiscordTogether(client);
 client.commands = new Collection();
-const { Player } = require("discord-player");
+client.name = name;
 
+// initialize player and add extractors
 const player = new Player(client);
 client.player = player;
+player.use("Reverbnation", Reverbnation);
+player.use("Facebook", Facebook);
+player.use("Attachment", Attachment);
+player.use("Vimeo", Vimeo);
+player.use("YOUTUBE_DL", downloader);
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -19,13 +32,18 @@ for (const file of commandFiles) {
 	client.commands.set(command.data.name, command);
 }
 
-// When the client is ready, run this code (only once)
-client.once('ready', () => {
-		console.log(`${name} is all ears!`);
-		client.user.setActivity(`A wide range of Songs!`, {
-        type: "LISTENING"
-      });
-});
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
 
 player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
 
@@ -49,7 +67,7 @@ player.on('connectionError', (queue, err) => {
 	console.log(err);
   });
 
-client.on('interactionCreate', async interaction => {
+/*client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
 	const command = client.commands.get(interaction.commandName);
@@ -60,8 +78,8 @@ client.on('interactionCreate', async interaction => {
 		await command.execute(interaction, client);
 	} catch (error) {
 		console.error(error);
-		await interaction.channel.send(`The command ${command} couldn't be executed. Please try again`);
+		await interaction.channel.send(`The command "${interaction.commandName}" couldn't be executed. Please try again`);
 	}
-});
+});*/
 // Login to Discord with your client's token
 client.login(token);

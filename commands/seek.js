@@ -6,7 +6,7 @@ module.exports = {
 		.setName('seek')
 		.setDescription('is this revenge i am seeking?')
 		.addStringOption(option => option.setName('input').setDescription('In "MM:SS" Format!').setRequired(true)),
-	async execute(interaction, client) {
+	/*async execute(interaction, client) {
 		const query = interaction.options.get("input").value;
 		function hmsToMiliseconds(str) {
 			var p = str.split(':'),
@@ -29,5 +29,9 @@ module.exports = {
 		}
 		await queue.seek(hmsToMiliseconds(query));
 		await interaction.reply({ content: `⏩ | Seeking to ${query}`});
+	},*/
+	async execute(interaction, client) {
+		//seek is temporarily disabled
+		return await interaction.reply({ content: "Seek is temporarily disabled!", ephemeral: true });
 	},
 };

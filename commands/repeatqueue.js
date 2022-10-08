@@ -7,6 +7,9 @@ module.exports = {
 		.setDescription('all that shit is real good'),
 	async execute(interaction, client) {
 		var queue = client.player.getQueue(interaction.guildId);
+		if (!queue) {
+			return await interaction.reply({ content: "You need to summon the Bot!", ephemeral: true });
+		}
 		if (queue.repeatMode == 2) {
 			queue.setRepeatMode(0);
 			await interaction.reply({ content: "▶️ | Continuing normally"});

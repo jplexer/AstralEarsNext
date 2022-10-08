@@ -1,11 +1,13 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { color, name, version} = require('../config.json');
+const { PermissionFlagsBits } = require('discord-api-types/v10');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('playnextskip')
 		.setDescription('i respect the queue, but i need to play this right now')
-        .addStringOption(option => option.setName('input').setDescription('Link or Name').setRequired(true)),
+        .addStringOption(option => option.setName('input').setDescription('Link or Name').setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages),
     async execute(interaction, client) {
         var queue = client.player.getQueue(interaction.guildId);
         if (!queue) {

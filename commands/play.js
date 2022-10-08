@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
 const { color, name, version} = require('../config.json');
+const downloader = require("@discord-player/downloader").Downloader;
 const playdl = require("play-dl");
-const youtubesr = require("youtube-sr");
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('play')
@@ -10,7 +10,7 @@ module.exports = {
     .addStringOption(option => option.setName('input').setDescription('Link or Name').setRequired(true)),
 	async execute(interaction, client) {
         if (!interaction.member.voice.channelId) return await interaction.reply({ content: "You are not in a voice channel!", ephemeral: true });
-        if (interaction.guild.me.voice.channelId && interaction.member.voice.channelId !== interaction.guild.me.voice.channelId) return await interaction.reply({ content: "You are not in my voice channel!", ephemeral: true });
+        if (interaction.guild.members.me.voice.channelId && (interaction.member.voice.channelId !== interaction.guild.members.me.voice.channelId)) return await interaction.reply({ content: "You are not in my voice channel!", ephemeral: true });
         const query = interaction.options.get("input").value;
         const queue = client.player.createQueue(interaction.guild, {
             metadata: {
@@ -18,16 +18,13 @@ module.exports = {
             },
             spotifyBridge: true,
             async onBeforeCreateStream(track, source, _queue) {
-                 if(source != "soundcloud") {
-                   return (await playdl.stream(await youtubesr.YouTube.search(`${track.author} ${track.title}`, {type: "video"}).then(x => x[0].url), { discordPlayerCompatibility : true })).stream;
+                if (source === "youtube") {
+                    // youtube is broken for some reason
+                    // so we use @discord-player/downloader
+                    
+                    return await downloader.download(track.url);
                 }
-                
             }
-            //only use in case of ytdl not working, breaks soundcloud
-            /*async onBeforeCreateStream(track, source, _queue) {
-                return (await playdl.stream(await youtubesr.YouTube.search(`${track.author} ${track.title}`, {type: "video"}).then(x => x[0].url), { discordPlayerCompatibility : true })).stream;
-
-            }*/
         });
         
         // verify vc connection
@@ -44,6 +41,7 @@ module.exports = {
         })//.then(x => x.tracks[0]);
         if (!track) return await interaction.followUp({ content: `❌ | Track **${query}** not found!` });
         try {
+        if (track.tracks.length === 0) return await interaction.followUp({ content: `❌ | Track **${query}** not found!` });
         if(track.playlist) {
             queue.addTracks(track.tracks)
             if (!queue.playing) await queue.play();
@@ -54,7 +52,7 @@ module.exports = {
             return await interaction.followUp({ content: `⏱️ | Queueing track **${track.tracks[0].title}**!`});
         }        
     } catch (err) {
-        return await interaction.followUp({ content: 'An error appeared! Notifiy the Developer ASAP: ```' + err + '```'});
+        return await console.log(err);
     }
 	},
 };
