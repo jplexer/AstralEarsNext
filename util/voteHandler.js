@@ -44,8 +44,8 @@ module.exports = {
         } else {
             queue.metadata.requiredVoteSkippers = Math.floor((interaction.member.voice.channel.members.size - 1) / 2);
             queue.metadata.voteSkippers = [];
-            //interaction.update({ content: "Voteskip failed. Votes reset!", components: [] });
-            interaction.followUp({ content: "Voteskip failed. Votes reset!" });
+            interaction.update({ content: "Voteskip failed. Votes reset!", components: [] });
+            //interaction.followUp({ content: "Voteskip failed. Votes reset!" });
         }
     });
 }
