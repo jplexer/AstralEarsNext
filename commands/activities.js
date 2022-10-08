@@ -10,18 +10,16 @@ module.exports = {
             option.setName('type')
                 .setDescription('The type of activity to summon')
                 .setRequired(true)
-                .addChoices(
-                    { name: 'Youtube', value: 'youtube' },
-                    { name: 'Poker', value: 'poker' },
-                    { name: 'Chess', value: 'chess' },
-                    { name: 'Betrayal', value: 'betrayal' },
-                    { name: 'fishington', value: 'fishing' },
-                    { name: 'Letter Tile', value: 'lettertile'},
-                    { name: 'Words Snack', value: 'wordsnack' },
-                    { name: 'Doodle Crew', value: 'doodlecrew' },
-                    { name: 'SpellCast', value: 'spellcast' },
-                    { name: 'Awkword', value: 'awkword' },
-                )),
+                .addChoice('Youtube', 'youtube')
+                .addChoice('Poker', 'poker')
+                .addChoice('Chess', 'chess')
+                .addChoice('Betrayal', 'betrayal')
+                .addChoice('Fishington', 'fishing')
+                .addChoice('Letter Tile', 'lettertile')
+                .addChoice('Words Snack', 'wordsnack')
+                .addChoice('Doodle Crew', 'doodlecrew')
+                .addChoice('SpellCast', 'spellcast')
+                .addChoice('Awkword', 'awkword')),
 	async execute(interaction, client) {
         const command = interaction.options.getString("type");
         if (!interaction.member.voice.channel) return interaction.reply({ content: "You need to join a voice channel.", ephemeral: true });
