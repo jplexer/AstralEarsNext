@@ -39,17 +39,17 @@ module.exports = {
         const track = await client.player.search(query, {
             requestedBy: interaction.user
         })//.then(x => x.tracks[0]);
-        if (!track) return await interaction.followUp({ content: `❌ | Track **${query}** not found!` });
+        if (!track) return await interaction.followUp({ content: `❌ | Track **${query}** not found` });
         try {
-        if (track.tracks.length === 0) return await interaction.followUp({ content: `❌ | Track **${query}** not found!` });
+        if (track.tracks.length === 0) return await interaction.followUp({ content: `❌ | Track **${query}** not found` });
         if(track.playlist) {
             queue.addTracks(track.tracks)
             if (!queue.playing) await queue.play();
-            return await interaction.followUp({ content: `⏱️ | Queueing playlist **${track.playlist.title}**!`});
+            return await interaction.followUp({ content: `⏱️ | Queueing playlist **${track.playlist.title}** with **${track.tracks.length}** tracks`});
         } else {
             queue.addTrack(track.tracks[0]);
             if (!queue.playing) await queue.play();
-            return await interaction.followUp({ content: `⏱️ | Queueing track **${track.tracks[0].title}**!`});
+            return await interaction.followUp({ content: `⏱️ | Queueing track **${track.tracks[0].title}**`});
         }        
     } catch (err) {
         return await console.log(err);

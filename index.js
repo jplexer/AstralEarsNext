@@ -45,13 +45,13 @@ for (const file of eventFiles) {
 	}
 }
 
-player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**!`))
+player.on("trackStart", (queue, track) => queue.metadata.channel.send(`🎶 | Now playing **${track.title}**`))
 
 player.on('error', (queue, err) => {
 	if(err = "DestroyedQueue") {
 
 	} else {
-		queue.metadata.channel.send('An error appeared! Notifiy the Developer ASAP: ```' + err + '```');
+		queue.metadata.channel.send('An error appeared!\n ```' + err + '```');
 	}
   });
 

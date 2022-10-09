@@ -15,7 +15,7 @@ module.exports = {
 			await interaction.reply({ content: "▶️ | Continuing normally"});
 		} else {
 			queue.setRepeatMode(1);
-			await interaction.reply({ content: "🔂 | Repeating this track!"});
+			await interaction.reply({ content: "🔂 | Repeating this track"});
 		}	
 	},
 };

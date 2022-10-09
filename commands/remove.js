@@ -13,7 +13,7 @@ module.exports = {
 			return await interaction.reply({ content: "You need to summon the Bot!", ephemeral: true });
 		}
         if (queue.tracks == []) {
-            return await interaction.reply({ content: "There is nothing to remove!", ephemeral: true });
+            return await interaction.reply({ content: "There is nothing to remove", ephemeral: true });
         } else if (query <= 0 || query > queue.tracks.length) {
             return await interaction.reply({ content: "That isn't possible", ephemeral: true });
         } else {

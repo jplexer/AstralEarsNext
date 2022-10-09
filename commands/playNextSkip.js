@@ -18,10 +18,10 @@ module.exports = {
         const track = await client.player.search(query, {
             requestedBy: interaction.user
         }).then(x => x.tracks[0]);
-        if (!track) return await interaction.followUp({ content: `❌ | Track **${query}** not found!` , ephemeral: true});
+        if (!track) return await interaction.followUp({ content: `❌ | Track **${query}** not found` , ephemeral: true});
 
         await queue.insert(track, 0);
         queue.skip();
-        return await interaction.followUp({ content: `⏱️ | Queueing track **${track.title}**!`});
+        return await interaction.followUp({ content: `⏱️ | Queueing track **${track.title}**`});
 	},
 };
