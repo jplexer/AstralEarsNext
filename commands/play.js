@@ -20,9 +20,9 @@ module.exports = {
             async onBeforeCreateStream(track, source, _queue) {
                 if (source === "youtube") {
                     // youtube is broken for some reason
-                    // so we use @discord-player/downloader
-                    
-                    return await downloader.download(track.url);
+                    // so we use playdl
+
+                    return (await playdl.stream(track.url, { discordPlayerCompatibility : true })).stream;
                 }
             }
         });
