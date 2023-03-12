@@ -59,6 +59,22 @@ player.on('queueEnd', (queue) => {
 	queue.metadata.channel.send(`That's all folks! Thanks for using AstralEars!`);
   });
 
+//hot fix I added half asleep on my phone
+player.events.on('connection', (queue) => {
+  queue.dispatcher.voiceConnection.on('stateChange', (oldState, newState) => {
+    const oldNetworking = Reflect.get(oldState, 'networking');
+    const newNetworking = Reflect.get(newState, 'networking');
+
+    const networkStateChangeHandler = (oldNetworkState, newNetworkState) => {
+      const newUdp = Reflect.get(newNetworkState, 'udp');
+      clearInterval(newUdp?.keepAliveInterval);
+    }
+
+    oldNetworking?.off('stateChange', networkStateChangeHandler);
+    newNetworking?.on('stateChange', networkStateChangeHandler);
+  });
+});
+
 player.on('botDisconnect', (queue) => {
 	queue.stop();
   });
